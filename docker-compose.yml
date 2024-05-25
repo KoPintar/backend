@@ -1,0 +1,41 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    build: .
+    platform: linux/x86_64
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgresdb
+    links:
+      - postgresdb
+
+  postgresdb:
+    container_name: postgresdb
+    restart: always
+    image: postgres
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
