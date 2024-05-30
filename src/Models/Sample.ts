@@ -17,7 +17,7 @@ export const Sample = sequelize.define("samples", {
   },
   createdAt: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     defaultValue: new Date(),
   },
 });
