@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import SampleRoute from "./Routes/SampleRoute";
+import AuthRoute from "./Routes/AuthRoute";
 
 (async () => {
   const app = express();
@@ -20,6 +21,7 @@ import SampleRoute from "./Routes/SampleRoute";
 
   // Predict route
   app.use("/sample", SampleRoute);
+  app.use("/auth", AuthRoute);
 
   // 404 handler
   app.use((req: Request, res: Response) => {
