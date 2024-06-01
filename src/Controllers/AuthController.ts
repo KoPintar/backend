@@ -26,7 +26,7 @@ export async function register(req: Request, res: Response) {
 			email: req.body.email,
 			username: req.body.username,
 			password: hashedPassword,
-			profileImg: req.body.profileImg,
+			profileImg: "image.png"
 		});
 
 		return response201(res, "Akun anda berhasil dibuat", user);
