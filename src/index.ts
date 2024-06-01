@@ -28,7 +28,7 @@ import AuthRoute from "./Routes/AuthRoute";
     return response404(res, "Resource not found");
   });
   
-  app.listen(3000, () =>
+  app.listen(4000, () =>
     console.log(`⚡️ Server is running at http://localhost:3000`)
   );
 })();
