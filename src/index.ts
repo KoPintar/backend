@@ -6,22 +6,24 @@ dotenv.config();
 
 import SampleRoute from "./Routes/SampleRoute";
 import AuthRoute from "./Routes/AuthRoute";
+import UserRoute from "./Routes/UserRoute"; // Import the UserRoute
 
 (async () => {
   const app = express();
   app.use(express.json());
 
-	// allow all cors
-	app.use(
+  // Allow all CORS
+  app.use(
     cors({
       origin: "*",
-      methods: "GET,POST",
+      methods: "GET,POST,PUT", // Add PUT method to allow profile updates
     })
   );
 
-  // Predict route
+  // Define routes
   app.use("/sample", SampleRoute);
   app.use("/auth", AuthRoute);
+  app.use("/user", UserRoute); // Add the new UserRoute
 
   // 404 handler
   app.use((req: Request, res: Response) => {
