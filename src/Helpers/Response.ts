@@ -23,6 +23,13 @@ export async function response400(res: Response, msg: string) {
   });
 }
 
+export async function response401(res: Response, msg: string) {
+  return res.status(401).json({
+    success: false,
+    message: msg,
+  });
+}
+
 export async function response404(res: Response, msg: string) {
 	return res.status(404).json({
     success: false,
