@@ -9,17 +9,18 @@ import SampleRoute from "./Routes/SampleRoute";
 import AuthRoute from "./Routes/AuthRoute";
 import PredictRoute from "./Routes/PredictRoute";
 import { authenticate } from "./Middlewares/Authenticate";
+import UserRoute from "./Routes/UserRoute"; // Import the UserRoute
 
 (async () => {
   const app = express();
   app.use(express.json());
   app.set("view engine", "ejs");
 
-	// allow all cors
-	app.use(
+  // Allow all CORS
+  app.use(
     cors({
       origin: "*",
-      methods: "GET,POST",
+      methods: "GET,POST,PUT", // Add PUT method to allow profile updates
     })
   );
 
@@ -33,6 +34,7 @@ import { authenticate } from "./Middlewares/Authenticate";
   app.use("/sample", SampleRoute);
   app.use("/auth", AuthRoute);
   app.use("/predict", authenticate, PredictRoute);
+  app.use("/user", UserRoute); // Add the new UserRoute
 
   // 404 handler
   app.use((req: Request, res: Response) => {
