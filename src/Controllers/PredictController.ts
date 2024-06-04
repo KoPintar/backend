@@ -47,8 +47,8 @@ export async function daun(req: Request, res: Response) {
     const tensor = tf.node
       .decodeJpeg(image.buffer)
       .resizeNearestNeighbor([256, 256])
-      .expandDims(0)
-      .toFloat();
+      .div(tf.scalar(255.0))
+      .expandDims();
 
     const prediction = model.predict(tensor) as tf.Tensor;
     const score = prediction.arraySync() as number[][];
