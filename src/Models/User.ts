@@ -3,7 +3,7 @@ import { sequelize } from "../Databases/Postgre";
 
 export const User = sequelize.define("users", {
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
@@ -37,5 +37,9 @@ export const User = sequelize.define("users", {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: new Date(),
+  },
+  resetPasswordToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });
