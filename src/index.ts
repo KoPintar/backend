@@ -9,7 +9,7 @@ import SampleRoute from "./Routes/SampleRoute";
 import AuthRoute from "./Routes/AuthRoute";
 import PredictRoute from "./Routes/PredictRoute";
 import { authenticate } from "./Middlewares/Authenticate";
-import UserRoute from "./Routes/UserRoute"; // Import the UserRoute
+// import UserRoute from "./Routes/UserRoute"; // Import the UserRoute
 
 (async () => {
   const app = express();
@@ -34,7 +34,7 @@ import UserRoute from "./Routes/UserRoute"; // Import the UserRoute
   app.use("/sample", SampleRoute);
   app.use("/auth", AuthRoute);
   app.use("/predict", authenticate, PredictRoute);
-  app.use("/user", UserRoute); // Add the new UserRoute
+  // app.use("/user", UserRoute); // Add the new UserRoute
 
   // 404 handler
   app.use((req: Request, res: Response) => {
