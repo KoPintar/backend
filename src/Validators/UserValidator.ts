@@ -1,21 +1,19 @@
 import { body } from "express-validator";
-import { User } from "../Models/User";
-import { Op } from "sequelize";
 
 export const UserValidator = [
-  body("name").optional().notEmpty().withMessage("Name tidak boleh kosong"),
-  body("email").optional().isEmail().withMessage("Format email invalid").custom(async (value, { req }) => {
-    const user = await User.findOne({ where: { email: value, id: { [Op.ne]: req.user.id } } });
-    if (user) {
-      return Promise.reject("Email sudah terdaftar");
-    }
-  }),
-  body("username").optional().notEmpty().withMessage("Username tidak boleh kosong").custom(async (value, { req }) => {
-    const user = await User.findOne({ where: { username: value, id: { [Op.ne]: req.user.id } } });
-    if (user) {
-      return Promise.reject("Username sudah terdaftar");
-    }
-  }),
-  body("password").optional().isLength({ min: 6 }).withMessage("Password minimal 8 karakter"),
-  body("profileImg").optional().notEmpty().withMessage("Profile image tidak boleh kosong")
+  body("name").notEmpty().withMessage("Nama tidak boleh kosong"),
+  body("name").isLength({ min: 3 }).withMessage("Nama minimal 3 karakter"),
+
+  body("email").notEmpty().withMessage("Email tidak boleh kosong"),
+  body("email").isEmail().withMessage("Email tidak valid"),
+
+  body("username").notEmpty().withMessage("Username tidak boleh kosong"),
+  body("username")
+    .isLength({ min: 3 })
+    .withMessage("Username minimal 3 karakter"),
+
+  body("password").notEmpty().withMessage("Password tidak boleh kosong"),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("Password minimal 8 karakter"),
 ];
