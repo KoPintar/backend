@@ -5,11 +5,11 @@ import { profileRoasting, daun } from "./Helpers/LoadModel";
 import dotenv from "dotenv";
 dotenv.config();
 
+import { authenticate } from "./Middlewares/Authenticate";
 import SampleRoute from "./Routes/SampleRoute";
 import AuthRoute from "./Routes/AuthRoute";
 import PredictRoute from "./Routes/PredictRoute";
-import { authenticate } from "./Middlewares/Authenticate";
-// import UserRoute from "./Routes/UserRoute"; // Import the UserRoute
+import UserRoute from "./Routes/UserRoute";
 
 (async () => {
   const app = express();
@@ -31,11 +31,11 @@ import { authenticate } from "./Middlewares/Authenticate";
   app.set("model.profileRoasting", modelProfileRoasting);
   app.set("model.daun", modelDaun);
 
-  // Predict route
+  // Routes
   app.use("/sample", SampleRoute);
   app.use("/auth", AuthRoute);
   app.use("/predict", authenticate, PredictRoute);
-  // app.use("/user", UserRoute); // Add the new UserRoute
+  app.use("/user", authenticate, UserRoute);
 
   // 404 handler
   app.use((req: Request, res: Response) => {

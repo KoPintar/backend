@@ -1,10 +1,9 @@
-// import { Router } from "express";
-// import * as UserController from "../Controllers/UserController";
-// import { UserValidator } from "../Validators/UserValidator";
-// import { authMiddleware } from "../Middlewares/AuthMiddleware";
+import { Router } from "express";
+import * as UserController from "../Controllers/UserController";
+import { UserValidator } from "../Validators/UserValidator";
 
-// const router: Router = Router();
+const router: Router = Router();
 
-// router.put("/profile", authMiddleware, UserValidator, UserController.updateUser);
+router.put("/profile", UserValidator, UserController.updateUser);
 
-// export default router;
+export default router;
