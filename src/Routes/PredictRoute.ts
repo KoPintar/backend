@@ -7,5 +7,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/roasting", upload.single("image"), PredictController.roasting);
 router.post("/daun", upload.single("image"), PredictController.daun);
+router.post("/biji", upload.single("image"), PredictController.biji);
 
 export default router;

@@ -55,23 +55,48 @@ export async function daun(req: Request, res: Response) {
     const confidenceScore = Math.max(...score[0]);
 
     const classResult = score[0].indexOf(confidenceScore);
+
     const classes = [
-      "Miner",
-      "Nodisease",
-      "Phoma",
-      "Rust",
-      "Penggerek",
       "Lumut",
-      "Penggerek Phoma",
+      "Miner",
+      "Sehat",
+      "Penggerek",
       "Penggerek Lumut",
+      "Penggerek Phoma",
+      "Phoma",
       "Phoma Lumut",
+      "Rust",
     ];
+    const result = classes[classResult];
 
-    // lumut, penggerek, penggerek_lumut, penggerek_phoma: 3
-    // miner, phoma_lumut, rust: 8
-    // sehat: 2
-    // phoma: 6
+    return response200(res, "Data berhasil didapatkan", {
+      result,
+      classResult,
+      confidenceScore,
+    });
+  } catch (error: any) {
+    console.log(error);
+    return response500(res, "Internal Server Error");
+  }
+}
 
+export async function biji(req: Request, res: Response) {
+  try {
+    const model = req.app.get("model.biji");
+    const image = req.file as Express.Multer.File;
+
+    const tensor = tf.node
+      .decodeJpeg(image.buffer)
+      .resizeNearestNeighbor([120, 120])
+      .div(tf.scalar(255.0))
+      .expandDims();
+
+    const prediction = model.predict(tensor) as tf.Tensor;
+    const score = prediction.arraySync() as number[][];
+    const confidenceScore = Math.max(...score[0]);
+
+    const classes = ["Berry Borer", "Damaged", "Healthy"];
+    const classResult = score[0].indexOf(confidenceScore);
     const result = classes[classResult];
 
     return response200(res, "Data berhasil didapatkan", {
