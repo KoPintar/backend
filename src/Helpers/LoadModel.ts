@@ -7,3 +7,7 @@ export async function profileRoasting() {
 export async function daun() {
   return tf.loadGraphModel(process.env.MODEL_DAUN_URL!);
 }
+
+export async function biji() {
+	return tf.loadGraphModel(process.env.MODEL_BIJI_URL!);
+}

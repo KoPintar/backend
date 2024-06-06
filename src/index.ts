@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { response404 } from "./Helpers/Response";
 import cors from "cors";
-import { profileRoasting, daun } from "./Helpers/LoadModel";
+import { profileRoasting, daun, biji } from "./Helpers/LoadModel";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -28,8 +28,11 @@ import UserRoute from "./Routes/UserRoute";
   // Load model
   const modelProfileRoasting = await profileRoasting();
   const modelDaun = await daun();
+  const modelBiji = await biji();
+  
   app.set("model.profileRoasting", modelProfileRoasting);
   app.set("model.daun", modelDaun);
+  app.set("model.biji", modelBiji);
 
   // Routes
   app.use("/sample", SampleRoute);
