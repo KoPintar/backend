@@ -68,11 +68,18 @@ export async function daun(req: Request, res: Response) {
       "Rust",
     ];
     const result = classes[classResult];
+    const suggestion = [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    ];
 
     return response200(res, "Data berhasil didapatkan", {
       result,
       classResult,
       confidenceScore,
+      suggestion: suggestion,
     });
   } catch (error: any) {
     console.log(error);
@@ -98,11 +105,18 @@ export async function biji(req: Request, res: Response) {
     const classes = ["Berry Borer", "Damaged", "Healthy"];
     const classResult = score[0].indexOf(confidenceScore);
     const result = classes[classResult];
+    const suggestion = [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    ];
 
     return response200(res, "Data berhasil didapatkan", {
       result,
       classResult,
       confidenceScore,
+      suggestion: suggestion,
     });
   } catch (error: any) {
     console.log(error);
