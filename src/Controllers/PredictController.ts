@@ -4,6 +4,8 @@ import {
   response200,
   response500,
 } from "../Helpers/Response";
+import { saveHistory } from "../Helpers/SaveHistory";
+import { uploadImage } from "../Helpers/UploadImage";
 
 export async function roasting(req: Request, res: Response) {
   try {
@@ -31,6 +33,16 @@ export async function roasting(req: Request, res: Response) {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     ];
+
+    const uploadedImage = await uploadImage(image);
+
+    await saveHistory({
+      user_id: req.app.get("user"),
+      type: "roasting",
+      classResult: result,
+      numericResult: classResult,
+      image: uploadedImage,
+    });
 
 		return response200(res, "Data berhasil didapatkan", {
       result,
@@ -81,6 +93,16 @@ export async function daun(req: Request, res: Response) {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     ];
 
+    const uploadedImage = await uploadImage(image);
+
+    await saveHistory({
+      user_id: req.app.get("user"),
+      type: "daun",
+      classResult: result,
+      numericResult: classResult,
+      image: uploadedImage,
+    });
+
     return response200(res, "Data berhasil didapatkan", {
       result,
       classResult,
@@ -117,6 +139,16 @@ export async function biji(req: Request, res: Response) {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     ];
+
+    const uploadedImage = await uploadImage(image);
+
+    await saveHistory({
+      user_id: req.app.get("user"),
+      type: "biji",
+      classResult: result,
+      numericResult: classResult,
+      image: uploadedImage,
+    });
 
     return response200(res, "Data berhasil didapatkan", {
       result,
