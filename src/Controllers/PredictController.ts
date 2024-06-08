@@ -2,10 +2,7 @@ import { Request, Response } from "express";
 import * as tf from "@tensorflow/tfjs-node";
 import {
   response200,
-  response201,
   response500,
-  response404,
-  response413,
 } from "../Helpers/Response";
 
 export async function roasting(req: Request, res: Response) {
@@ -28,10 +25,18 @@ export async function roasting(req: Request, res: Response) {
     const classes = ["Dark", "Green", "Light", "Medium"];
     const result = classes[classResult];
 
+    const suggestion = [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    ];
+
 		return response200(res, "Data berhasil didapatkan", {
       result,
       classResult,
       confidenceScore,
+      suggestion: suggestion,
     });
   } catch (error: any) {
     console.log(error);
@@ -67,6 +72,7 @@ export async function daun(req: Request, res: Response) {
       "Phoma Lumut",
       "Rust",
     ];
+
     const result = classes[classResult];
     const suggestion = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
