@@ -10,6 +10,7 @@ import SampleRoute from "./Routes/SampleRoute";
 import AuthRoute from "./Routes/AuthRoute";
 import PredictRoute from "./Routes/PredictRoute";
 import UserRoute from "./Routes/UserRoute";
+import HistoryRoute from "./Routes/HistoryRoute";
 
 (async () => {
   const app = express();
@@ -39,6 +40,7 @@ import UserRoute from "./Routes/UserRoute";
   app.use("/auth", AuthRoute);
   app.use("/predict", authenticate, PredictRoute);
   app.use("/user", authenticate, UserRoute);
+  app.use("/history", authenticate, HistoryRoute);
 
   // 404 handler
   app.use((req: Request, res: Response) => {
