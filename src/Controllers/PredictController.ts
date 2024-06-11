@@ -7,8 +7,9 @@ import {
 } from "../Helpers/Response";
 import { saveHistory } from "../Helpers/SaveHistory";
 import { uploadImage } from "../Helpers/UploadImage";
+import { Suggestion } from "../Models/Suggestion";
 
-const minConfidence = 90;
+const minConfidence = 80;
 
 export async function roasting(req: Request, res: Response) {
   try {
@@ -34,12 +35,17 @@ export async function roasting(req: Request, res: Response) {
       return response400(res, "Gagal melakukan prediksi (akurasi rendah)");
     }
 
-    const suggestion = [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ];
+    const suggestionData = await Suggestion.findAll({
+      where: {
+        name: result.toLowerCase(),
+      },
+      attributes: ["suggestion"],
+    });
+
+    const suggestion = [] as any[];
+    suggestionData.forEach((data: any) => {
+      suggestion.push(data.suggestion);
+    });
 
     const uploadedImage = await uploadImage(image);
 
@@ -97,12 +103,17 @@ export async function daun(req: Request, res: Response) {
     ];
 
     const result = classes[classResult];
-    const suggestion = [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ];
+    const suggestionData = await Suggestion.findAll({
+      where: {
+        name: result.toLowerCase(),
+      },
+      attributes: ["suggestion"],
+    });
+
+    const suggestion = [] as any[];
+    suggestionData.forEach((data: any) => {
+      suggestion.push(data.suggestion);
+    });
 
     const uploadedImage = await uploadImage(image);
 
@@ -137,7 +148,7 @@ export async function biji(req: Request, res: Response) {
       .div(tf.scalar(255.0))
       .expandDims();
 
-    const classes = ["Berry Borer", "Damaged", "Healthy"];
+    const classes = ["Berry Borer", "Damaged", "Biji Sehat"];
 
     const prediction = model.predict(tensor) as tf.Tensor;
     const score = await prediction.data();
@@ -150,12 +161,17 @@ export async function biji(req: Request, res: Response) {
     }
 
     const result = classes[classResult];
-    const suggestion = [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ];
+    const suggestionData = await Suggestion.findAll({
+      where: {
+        name: result.toLowerCase(),
+      },
+      attributes: ["suggestion"],
+    });
+
+    const suggestion = [] as any[];
+    suggestionData.forEach((data: any) => {
+      suggestion.push(data.suggestion);
+    });
 
     const uploadedImage = await uploadImage(image);
 
