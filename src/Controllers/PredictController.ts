@@ -2,10 +2,13 @@ import { Request, Response } from "express";
 import * as tf from "@tensorflow/tfjs-node";
 import {
   response200,
+  response400,
   response500,
 } from "../Helpers/Response";
 import { saveHistory } from "../Helpers/SaveHistory";
 import { uploadImage } from "../Helpers/UploadImage";
+
+const minConfidence = 90;
 
 export async function roasting(req: Request, res: Response) {
   try {
@@ -19,13 +22,17 @@ export async function roasting(req: Request, res: Response) {
       .expandDims();
 
     const prediction = model.predict(tensor) as tf.Tensor;
-    const score = prediction.arraySync() as number[][];
-    const confidenceScore = Math.max(...score[0]);
+    const score = await prediction.data();
+    const confidenceScore = Math.max(...score) * 100;
 
-    const classResult = score[0].indexOf(confidenceScore);
+    const classResult = tf.argMax(prediction, 1).dataSync()[0];
 
     const classes = ["Dark", "Green", "Light", "Medium"];
     const result = classes[classResult];
+
+    if (confidenceScore < minConfidence) {
+      return response400(res, "Gagal melakukan prediksi (akurasi rendah)");
+    }
 
     const suggestion = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -44,7 +51,7 @@ export async function roasting(req: Request, res: Response) {
       image: uploadedImage,
     });
 
-		return response200(res, "Data berhasil didapatkan", {
+		return response200(res, "Berhasil melakukan prediksi", {
       result,
       classResult,
       confidenceScore,
@@ -68,10 +75,14 @@ export async function daun(req: Request, res: Response) {
       .expandDims();
 
     const prediction = model.predict(tensor) as tf.Tensor;
-    const score = prediction.arraySync() as number[][];
-    const confidenceScore = Math.max(...score[0]);
+    const score = await prediction.data();
+    const confidenceScore = Math.max(...score) * 100;
 
-    const classResult = score[0].indexOf(confidenceScore);
+    const classResult = tf.argMax(prediction, 1).dataSync()[0];
+
+    if (confidenceScore < minConfidence) {
+      return response400(res, "Gagal melakukan prediksi (akurasi rendah)");
+    }
 
     const classes = [
       "Lumut",
@@ -103,7 +114,7 @@ export async function daun(req: Request, res: Response) {
       image: uploadedImage,
     });
 
-    return response200(res, "Data berhasil didapatkan", {
+    return response200(res, "Berhasil melakukan prediksi", {
       result,
       classResult,
       confidenceScore,
@@ -126,12 +137,18 @@ export async function biji(req: Request, res: Response) {
       .div(tf.scalar(255.0))
       .expandDims();
 
-    const prediction = model.predict(tensor) as tf.Tensor;
-    const score = prediction.arraySync() as number[][];
-    const confidenceScore = Math.max(...score[0]);
-
     const classes = ["Berry Borer", "Damaged", "Healthy"];
-    const classResult = score[0].indexOf(confidenceScore);
+
+    const prediction = model.predict(tensor) as tf.Tensor;
+    const score = await prediction.data();
+    const confidenceScore = Math.max(...score) * 100;
+
+    const classResult = tf.argMax(prediction, 1).dataSync()[0];
+
+    if (confidenceScore < minConfidence) {
+      return response400(res, "Gagal melakukan prediksi (akurasi rendah)");
+    }
+
     const result = classes[classResult];
     const suggestion = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -150,7 +167,7 @@ export async function biji(req: Request, res: Response) {
       image: uploadedImage,
     });
 
-    return response200(res, "Data berhasil didapatkan", {
+    return response200(res, "Berhasil melakukan prediksi", {
       result,
       classResult,
       confidenceScore,
