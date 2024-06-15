@@ -1,5 +1,5 @@
 # Backend For KoPintar Application
-This is a backend for KoPintar application. This backend is built using Node.js and Express.js. This backend is used to handle all the requests from the frontend and interact with the database.
+This is a backend for KoPintar application. This backend is built using Express.JS and PostgreSQL. This backend is used to handle all the requests from the frontend and interact with the database.
 
 ## Installation
 1. Clone this repository
